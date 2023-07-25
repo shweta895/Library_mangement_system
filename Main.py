@@ -38,12 +38,6 @@ top:2px;
 
 '''
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-#buff, col, buff2 = st.columns([1, 3, 1])
-            #st.session_state['uid'] = col.text_input('Username')
-            #buff, col, buff2 = st.columns([1, 3, 1])
-            #pwd = col.text_input("Password", type='password')
-            #buff, col, buff2 = st.columns([10, 3, 10])
-            #btn= col.button('Submit')
 with st.sidebar:
     choice = option_menu(
         menu_title=None,
@@ -129,7 +123,7 @@ elif choice == "STUDENT LOGIN":
         pwd = st.text_input("Enter Password", type='password')
         btn = st.button("Login")
         if btn:
-            mydb = mysql.connector.connect(host="localhost", user="root", password="newrootpassword", database="lms")
+            mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="newrootpassword", database="lms", port="3306")
             c = mydb.cursor()
             c.execute("select * from student")
             for row in c:
@@ -144,7 +138,7 @@ elif choice == "STUDENT LOGIN":
         st.success("Login Successful")
         choice2 = st.selectbox("Features", ("None", "View All Books", "Issue Books"))
         if choice2 == "View All Books":
-            mydb = mysql.connector.connect(host="localhost", user="root", password="newrootpassword", database="lms")
+            mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="newrootpassword", database="lms", port="3306")
             c = mydb.cursor()
             c.execute("select * from books")
             l = []
@@ -154,7 +148,7 @@ elif choice == "STUDENT LOGIN":
             st.dataframe(df)
             def onclick(books):
                 doi1 = str(datetime.datetime.now())
-                mydb2 = mysql.connector.connect(host="localhost", user="root", password="newrootpassword", database="lms")
+                mydb2 = mysql.connector.connect(host="127.0.0.1", user="root", password="newrootpassword", database="lms", port="3306")
                 c2 = mydb2.cursor()
                 c2.execute("insert into bookdata values(%s,%s,%s)", (doi1, st.session_state['sid'], books))
                 mydb2.commit()
@@ -222,7 +216,7 @@ elif choice == "STUDENT LOGIN":
 
         elif choice2 == "Issue Books":
             doi = str(datetime.datetime.now())
-            mydb = mysql.connector.connect(host="localhost", user="root", password="newrootpassword", database="lms")
+            mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="newrootpassword", database="lms", port="3306")
             c = mydb.cursor()
             c.execute("select * from books")
             l = []
@@ -231,7 +225,7 @@ elif choice == "STUDENT LOGIN":
             list_of_books = [i[0] for i in l]
             selected_book = st.selectbox("Books", list_of_books)
             def select_book(bookid):
-                mydb = mysql.connector.connect(host="localhost", user="root", password="newrootpassword", database="lms")
+                mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="newrootpassword", database="lms", port="3306")
                 c = mydb.cursor()
                 c.execute("insert into issue values(%s,%s,%s)", (doi, bookid, st.session_state['sid']))
                 mydb.commit()
@@ -262,7 +256,7 @@ elif (choice == "STUDENT SIGNUP"):
     new_pwd = st.text_input("PASSWORD", type='password')
     btn4 = st.button("SIGNUP")
     if btn4:
-        mydb = mysql.connector.connect(host="localhost", user="root", password="newrootpassword", database="lms")
+        mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="newrootpassword", database="lms", port="3306")
         c = mydb.cursor()
 
         c.execute("insert into student values(%s,%s)", (new_user, new_pwd))
@@ -299,7 +293,7 @@ elif (choice == "LIBRARIAN LOGIN"):
         st.success("Login Successful")
         choice2 = st.selectbox("Features", ("None", "View Issue Books", "Add new Books", "Delete student"))
         if choice2 == "View Issue Books":
-            mydb = mysql.connector.connect(host="localhost", user="root", password="newrootpassword", database="lms")
+            mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="newrootpassword", database="lms", port="3306")
             c = mydb.cursor()
             c.execute("select * from issue")
             l = []
@@ -313,7 +307,7 @@ elif (choice == "LIBRARIAN LOGIN"):
             aname = st.text_input("Enter Author Name")
             btn3 = st.button("Add new Book")
             if btn3:
-                mydb = mysql.connector.connect(host="localhost", user="root", password="newrootpassword", database="lms")
+                mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="newrootpassword", database="lms", port="3306")
                 c = mydb.cursor()
                 c.execute("insert into books values(%s,%s,%s)", (bid, bname, aname))
                 mydb.commit()
@@ -328,7 +322,7 @@ elif (choice == "LIBRARIAN LOGIN"):
             list_of_students = [i[0] for i in l]
             selected_task = st.selectbox("Students to delete", list_of_students)
             def delete_data(studentid):
-                mydb = mysql.connector.connect(host="localhost", user="root", password="newrootpassword", database="lms")
+                mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="newrootpassword", database="lms", port="3306")
                 c = mydb.cursor()
                 c.execute('delete from student where studentid = "{}" '.format(studentid))
                 mydb.commit()
