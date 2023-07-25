@@ -1,3 +1,4 @@
 streamlit==1.17.0
+pykg-config
 mysqlclient
 pandas
